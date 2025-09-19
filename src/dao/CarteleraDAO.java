@@ -65,6 +65,7 @@ public class CarteleraDAO {
     // UPDATE - actualizar película
     public void actualizarPelicula(Pelicula p) {
         String sql = "UPDATE Cartelera SET titulo=?, director=?, anio=?, duracion=?, genero=? WHERE id=?";
+        
         try (Connection conn = ConexionBD.conectarBD();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -83,16 +84,20 @@ public class CarteleraDAO {
     }
 
     // DELETE - eliminar película
-    public void eliminarPelicula(int id) {
+    public boolean eliminarPelicula(int id) {
         String sql = "DELETE FROM Cartelera WHERE id=?";
         try (Connection conn = ConexionBD.conectarBD();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
-            ps.executeUpdate();
-            System.out.println(" Pelicula eliminada con ID: " + id);
+            if( ps.executeUpdate() > 0) {
+                System.out.println(" Pelicula eliminada con ID: " + id);
+                return true;
+            }
+            else return false;
         } catch (SQLException e) {
             System.out.println(" Error al eliminar: " + e.getMessage());
+            return false;
         }
     }
     

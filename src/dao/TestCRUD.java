@@ -26,7 +26,7 @@ public class TestCRUD {
         dao.actualizarPelicula(actualizar);
 */
         // ELIMINAR (ejemplo: borrar película con ID 1)
-        dao.eliminarPelicula(13);
+        dao.eliminarPelicula(14);
     
 }
 

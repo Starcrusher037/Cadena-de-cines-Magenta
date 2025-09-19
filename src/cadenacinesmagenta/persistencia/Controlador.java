@@ -4,6 +4,7 @@ package cadenacinesmagenta.persistencia;
 import cadenacinesmagenta.logica.Pelicula;
 import dao.CarteleraDAO;
 import igu.Pantalla;
+import javax.swing.JOptionPane;
 
 
 public class Controlador {
@@ -23,22 +24,28 @@ public class Controlador {
         switch (tarea){
             case "Crear":
                 cDAO.agregarPelicula(p);
+                pant.mostrarTabla();
                 break;
             case "Modificar":
-                pant.consultarID();
+                p.setId(Integer.parseInt(pant.consultarID()));
                 cDAO.actualizarPelicula(p);
+                pant.mostrarTabla();
                 break;
             case "Eliminar":
-                
-                
+                 boolean eliminado = cDAO.eliminarPelicula(Integer.parseInt(pant.consultarID()));
+                if (!eliminado) JOptionPane.showMessageDialog(pant, "Ocurrio un error al eliminar la pelicula, verifique que exista el ID");
+                else pant.mostrarTabla();
+                break;
             case "Listar":
                 pant.mostrarTabla();
                 break;
             case "Buscar":
                 
                 
-            case "Cerrar programa":
-                
+            case "Cerrar Programa":
+                pant.mensajeDespedida();
+                System.exit(0);
+                break;
                 
             default:
         

@@ -346,15 +346,17 @@ public class Pantalla extends javax.swing.JFrame {
                 p.getDirector(),
                 p.getAnio(),
                 p.getDuracion(),p.getGenero()});
-        }
-            
+        }      
     }
 
     public String consultarID(){
         String id = JOptionPane.showInputDialog(this,"Ingrese el Id de la pelicula");
         return id;
     }
-          
+         
+    public void mensajeDespedida(){
+        JOptionPane.showMessageDialog(this,"GRACIAS POR USAR EL SISTEMA DE GESTION DE CINES MAGENTA, HASTA PRONTO");
+    }
 }
 
 
