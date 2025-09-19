@@ -6,8 +6,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class CarteleraDAO {
+  
     
      // CREATE - insertar película
     public void agregarPelicula(Pelicula p) {
@@ -53,6 +53,7 @@ public class CarteleraDAO {
         return lista;
     }
 
+   
     
     //ESTE METODO ESTÁ PENSADO PARA TRABAJARLO EN CONSOLA
     public void mostrarPeliculas(List<Pelicula> peliculas){

@@ -3,11 +3,19 @@ package cadenacinesmagenta.persistencia;
 
 import cadenacinesmagenta.logica.Pelicula;
 import dao.CarteleraDAO;
+import igu.Pantalla;
 
 
 public class Controlador {
+
    
-    CarteleraDAO cDAO = new CarteleraDAO();
+    private CarteleraDAO cDAO = new CarteleraDAO();
+    private Pantalla pant;
+
+    public Controlador(Pantalla pant) {
+        this.pant = pant;
+    }
+    
     
     //EJECUTAR LA ELECCION DE LA BARRA TAREAS
     public void ejecutorBarraTareas(String tarea,Pelicula p){
@@ -23,8 +31,8 @@ public class Controlador {
                 
                 
             case "Listar":
-                cDAO.listarPeliculas();
-                
+                pant.mostrarTabla();
+                break;
             case "Buscar":
                 
                 
