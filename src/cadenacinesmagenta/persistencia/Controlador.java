@@ -25,6 +25,7 @@ public class Controlador {
                 cDAO.agregarPelicula(p);
                 break;
             case "Modificar":
+                pant.consultarID();
                 cDAO.actualizarPelicula(p);
                 break;
             case "Eliminar":

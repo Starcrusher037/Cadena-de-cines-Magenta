@@ -4,6 +4,7 @@ package igu;
 import cadenacinesmagenta.logica.Pelicula;
 import cadenacinesmagenta.persistencia.Controlador;
 import dao.CarteleraDAO;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,6 +18,7 @@ public class Pantalla extends javax.swing.JFrame {
     public Pantalla(Controlador controlador) {
         this.controlador = controlador;
         initComponents();
+        mostrarTabla();
     }
 
     public void setControlador(Controlador controlador) {
@@ -272,11 +274,25 @@ public class Pantalla extends javax.swing.JFrame {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         String eleccion = cmbBarraTareas.getSelectedItem().toString();
         if (eleccion.equalsIgnoreCase("Crear") || eleccion.equalsIgnoreCase("Modificar")){
+            if (txtTitulo.getText().isBlank() || txtDirector.getText().isBlank() || txtAnio.getText().isBlank() 
+                    || txtDuracion.getText().isBlank() || txtGenero.getText().isBlank()){
+                JOptionPane.showMessageDialog(this, "Debe llenar todos los campos","Advertencia",JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            try{
             pelicula.setTitulo(txtTitulo.getText());
             pelicula.setDirector(txtDirector.getText());
             pelicula.setAnio(Integer.parseInt( txtAnio.getText()));
             pelicula.setDuracion(Integer.parseInt(txtDuracion.getText()));
             pelicula.setGenero(txtGenero.getText());
+            }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(this, 
+                "Los datos ingresados son erroneos,revise la validez de los datos", 
+                "Advertencia", 
+                JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
         }
         controlador.ejecutorBarraTareas(eleccion, pelicula);
         
@@ -334,6 +350,10 @@ public class Pantalla extends javax.swing.JFrame {
             
     }
 
+    public String consultarID(){
+        String id = JOptionPane.showInputDialog(this,"Ingrese el Id de la pelicula");
+        return id;
+    }
           
 }
 
