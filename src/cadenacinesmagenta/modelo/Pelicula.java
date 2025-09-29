@@ -1,5 +1,5 @@
 
-package cadenacinesmagenta.logica;
+package cadenacinesmagenta.modelo;
 
 
 public class Pelicula {
@@ -18,7 +18,6 @@ public class Pelicula {
        this.duracion = duracion;
        this.genero = genero;
    }
-
 
     public Pelicula( String titulo, String director, int anio, int duracion, String genero) {
         this.anio = anio;

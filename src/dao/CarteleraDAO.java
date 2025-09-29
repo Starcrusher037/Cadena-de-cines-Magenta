@@ -1,7 +1,7 @@
 
 package dao;
 
-import cadenacinesmagenta.logica.Pelicula;
+import cadenacinesmagenta.modelo.Pelicula;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 public class CarteleraDAO {
   
     
-     // CREATE - insertar película
+    // Recibe un objeto pelicula y lo carga a la base de datos
     public void agregarPelicula(Pelicula p) {
         String sql = "INSERT INTO Cartelera (titulo, director, anio, duracion, genero) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = ConexionBD.conectarBD();
@@ -23,12 +23,12 @@ public class CarteleraDAO {
 
             ps.executeUpdate();
             System.out.println(" Pelicula agregada: " + p.getTitulo());
-        } catch (SQLException e) {
+        }catch (SQLException e) {
             System.out.println(" Error al agregar: " + e.getMessage());
         }
     }
 
-    // READ - listar todas las películas
+    // Conecta con base de datos, genera y devuelve una lista .
     public List<Pelicula> listarPeliculas() {
         List<Pelicula> lista = new ArrayList<>();
         String sql = "SELECT * FROM Cartelera";
@@ -53,16 +53,8 @@ public class CarteleraDAO {
         return lista;
     }
 
-   
     
-    //ESTE METODO ESTÁ PENSADO PARA TRABAJARLO EN CONSOLA
-    public void mostrarPeliculas(List<Pelicula> peliculas){
-        for (Pelicula p : peliculas){
-            System.out.println(p);
-        }
-    }
-    
-    // UPDATE - actualizar película
+    // Recibe una pelicula y actualiza los datos de la pelicula correspondiente al ID en la base de datos
     public void actualizarPelicula(Pelicula p) {
         String sql = "UPDATE Cartelera SET titulo=?, director=?, anio=?, duracion=?, genero=? WHERE id=?";
         
@@ -82,8 +74,9 @@ public class CarteleraDAO {
             System.out.println(" Error al actualizar: " + e.getMessage());
         }
     }
+    
 
-    // DELETE - eliminar película
+    // Mediante el ID borra la pelicula de la base de datos correspondiente y devuelve un boolean que se ocupa en la igu
     public boolean eliminarPelicula(int id) {
         String sql = "DELETE FROM Cartelera WHERE id=?";
         try (Connection conn = ConexionBD.conectarBD();
@@ -101,5 +94,10 @@ public class CarteleraDAO {
         }
     }
     
-    
+    public Pelicula buscarPelicula(String pelicula){
+        for (Pelicula p : listarPeliculas()){
+            if (p.getTitulo().toUpperCase().equalsIgnoreCase(pelicula)) return p;
+        }
+        return null ;
+    }
 }
