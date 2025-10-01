@@ -28,14 +28,12 @@ public class CarteleraDAO {
         }
     }
 
-    // Conecta con base de datos, genera y devuelve una lista .
     public List<Pelicula> listarPeliculas() {
         List<Pelicula> lista = new ArrayList<>();
         String sql = "SELECT * FROM Cartelera";
         try (Connection conn = ConexionBD.conectarBD();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 Pelicula p = new Pelicula(
                         rs.getInt("id"),
@@ -47,6 +45,48 @@ public class CarteleraDAO {
                 );
                 lista.add(p);
             }
+        } catch (SQLException e) {
+            System.out.println("Error al listar: " + e.getMessage());
+        }
+        return lista;
+    }
+    
+    // Conecta con base de datos, genera y devuelve una lista .
+    public List<Pelicula> listarPeliculas(List<String> listaArgumentos) {
+        if (listaArgumentos == null) return null;   
+        List<Pelicula> lista = new ArrayList<>();
+        String sql;
+        try (Connection conn = ConexionBD.conectarBD()){
+            PreparedStatement ps ;
+                
+            if (listaArgumentos.isEmpty()){
+                sql = "SELECT * FROM Cartelera";
+                ps = conn.prepareStatement(sql);
+            }else if (listaArgumentos.size()==1) {
+                sql = "SELECT * FROM Cartelera WHERE genero = ?";
+                ps = conn.prepareStatement(sql);
+                ps.setString(1,listaArgumentos.get(0));
+            }
+            else {
+                sql = "SELECT *FROM Cartelera WHERE anio >= ? AND anio <= ?";
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, Integer.parseInt(listaArgumentos.get(0)));
+                ps.setInt(2, Integer.parseInt(listaArgumentos.get(1)));
+            }
+            
+           try(ResultSet rs = ps.executeQuery()){
+                while (rs.next()) {
+                    Pelicula p = new Pelicula(
+                    rs.getInt("id"),
+                    rs.getString("titulo"),
+                    rs.getString("director"),
+                    rs.getInt("anio"),
+                    rs.getInt("duracion"),
+                    rs.getString("genero")
+                );
+                lista.add(p);
+            }
+           }
         } catch (SQLException e) {
             System.out.println("Error al listar: " + e.getMessage());
         }

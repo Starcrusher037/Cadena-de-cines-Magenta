@@ -4,6 +4,8 @@ package cadenacinesmagenta.persistencia;
 import dao.CarteleraDAO;
 import cadenacinesmagenta.modelo.Pelicula;
 import igu.Pantalla;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 
@@ -36,12 +38,15 @@ public class Controlador {
                 else pant.mostrarTabla(cartelera.listarPeliculas());
                 break;
             case "Listar":
-                pant.mostrarTabla(cartelera.listarPeliculas());
+                try{
+                    pant.mostrarTabla(cartelera.listarPeliculas(listaDatosFiltrado()));
+                }catch(NullPointerException e){
+                    JOptionPane.showMessageDialog(pant,"Se cancelo la operacion" );
+                }
                 break;
             case "Buscar":
                 pant.mostrarPelicula();
-                break;
-                
+                break; 
             case "Cerrar Programa":
                 pant.mensajeDespedida();
                 System.exit(0);
@@ -51,6 +56,26 @@ public class Controlador {
                 
                 
         }  
+    }
+    
+    
+    public List<String> listaDatosFiltrado(){
+        List<String> datosFiltros = new ArrayList<>(); 
+                switch(pant.seleccionFiltrado()){   
+                    case "Listar todo":
+                        break;
+                    case "Filtrar por genero":
+                        datosFiltros.add(pant.seleccionGenero());
+                        break;
+                    case "filtrar por rango anio":
+                        String minimo = pant.seleccionRangoAnios();
+                        String maximo = pant.seleccionRangoAnios();
+                        if (minimo == null || maximo == null) return null;
+                        datosFiltros.add(minimo);
+                        datosFiltros.add(maximo);
+                        break;
+                }
+        return datosFiltros;
     }
     
     

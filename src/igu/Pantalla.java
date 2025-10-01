@@ -115,6 +115,11 @@ public class Pantalla extends javax.swing.JFrame {
         jLabel5.setText("GENERO");
 
         txtGenero.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        txtGenero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtGeneroActionPerformed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel8.setText("AÑO");
@@ -312,11 +317,12 @@ public class Pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void tblTablaPeliculasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTablaPeliculasMouseClicked
-
+        
         int fila = tblTablaPeliculas.getSelectedRow();
         
         // Validar que hay una fila seleccionada
         if (fila >= 0) {
+            if (txtTitulo.getText().isEmpty()) return;
             // Obtener valores de la tabla y cargarlos en los JTextField
             txtTitulo.setText(tblTablaPeliculas.getValueAt(fila, 1).toString());
             txtDirector.setText(tblTablaPeliculas.getValueAt(fila, 2).toString());
@@ -325,9 +331,13 @@ public class Pantalla extends javax.swing.JFrame {
             txtGenero.setText(tblTablaPeliculas.getValueAt(fila, 5).toString());
         }
     }//GEN-LAST:event_tblTablaPeliculasMouseClicked
-                                        
 
-  
+              
+              
+    private void txtGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGeneroActionPerformed
+        
+    }//GEN-LAST:event_txtGeneroActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -393,6 +403,38 @@ public class Pantalla extends javax.swing.JFrame {
                 p.getDuracion(),p.getGenero()});
         }
     }
+    
+    
+    public String seleccionFiltrado(){
+        String[] opciones = {"Listar todo","Filtrar por genero","filtrar por rango anio"};
+        String eleccion =(String)JOptionPane.showInputDialog(null,"Selecione el tipo de busqueda","menu opciones",
+                JOptionPane.QUESTION_MESSAGE,null,opciones,opciones[0]);
+        return eleccion;
+    }
+    
+    public String seleccionGenero(){
+        String[] opciones = {"Comedia","Drama","Accion","Ciencia Ficcion","Horror","Suspenso","Romance"};
+        String eleccion =(String)JOptionPane.showInputDialog(null,"Selecione el genero","Generos disponibles",
+                JOptionPane.QUESTION_MESSAGE,null,opciones,opciones[0]);
+        return eleccion;
+    }
+    
+    public String seleccionRangoAnios(){
+        int inicio = 1895;
+        int fin = 2025;
+        String[] anios = new String [fin - inicio + 1];
+        for (int i = 0; i < anios.length; i++) {
+            anios[i] = String.valueOf(inicio+i);
+        }
+        String eleccion =(String)JOptionPane.showInputDialog(null,"Selecione el anio","Rango de anios",
+                JOptionPane.QUESTION_MESSAGE,null,anios,anios[0]);
+        if (eleccion == null) {
+            JOptionPane.showMessageDialog(this, "Opcion cancelada por el Usuario");
+            return null;
+        }
+        return eleccion;
+    }
+  
     
 }
 
