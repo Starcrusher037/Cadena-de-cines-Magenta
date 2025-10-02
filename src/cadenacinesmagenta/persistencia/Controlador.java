@@ -68,8 +68,8 @@ public class Controlador {
                         datosFiltros.add(pant.seleccionGenero());
                         break;
                     case "filtrar por rango anio":
-                        String minimo = pant.seleccionRangoAnios();
-                        String maximo = pant.seleccionRangoAnios();
+                        String minimo = pant.seleccionRangoAnios("inicio");
+                        String maximo = pant.seleccionRangoAnios("fin");
                         if (minimo == null || maximo == null) return null;
                         datosFiltros.add(minimo);
                         datosFiltros.add(maximo);

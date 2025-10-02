@@ -115,9 +115,9 @@ public class Pantalla extends javax.swing.JFrame {
         jLabel5.setText("GENERO");
 
         txtGenero.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        txtGenero.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtGeneroActionPerformed(evt);
+        txtGenero.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtGeneroMouseClicked(evt);
             }
         });
 
@@ -269,12 +269,16 @@ public class Pantalla extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        int opcion = JOptionPane.showConfirmDialog(rootPane, "Estas seguro que deseas continuar con la operacion?",
-                "Ejecutar comando",JOptionPane.YES_NO_OPTION );
-        if(opcion == JOptionPane.NO_OPTION || opcion ==JOptionPane.CLOSED_OPTION ) {
-            JOptionPane.showMessageDialog(this, "Operacion cancelada por el usuario","AVISO",JOptionPane.WARNING_MESSAGE);
-           return;
+        int opcion;
+        if (! cmbBarraTareas.getSelectedItem().equals("Listar")) {
+            opcion = JOptionPane.showConfirmDialog(rootPane, "Estas seguro que deseas continuar con la operacion?",
+                "Ejecutar comando",JOptionPane.YES_NO_OPTION ); 
+            if(opcion == JOptionPane.NO_OPTION || opcion ==JOptionPane.CLOSED_OPTION ) {
+                JOptionPane.showMessageDialog(this, "Operacion cancelada por el usuario","AVISO",JOptionPane.WARNING_MESSAGE);
+                return;
+            }
         }
+       
         String eleccion = cmbBarraTareas.getSelectedItem().toString();
         if (eleccion.equalsIgnoreCase("Crear") || eleccion.equalsIgnoreCase("Modificar")){
             if (txtTitulo.getText().isBlank() || txtDirector.getText().isBlank() || txtAnio.getText().isBlank() 
@@ -317,12 +321,13 @@ public class Pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void tblTablaPeliculasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTablaPeliculasMouseClicked
-        
-        int fila = tblTablaPeliculas.getSelectedRow();
-        
+
+        int fila = tblTablaPeliculas.getSelectedRow();       
         // Validar que hay una fila seleccionada
         if (fila >= 0) {
-            if (txtTitulo.getText().isEmpty()) return;
+            Object titulo = tblTablaPeliculas.getValueAt(fila, 1);
+            if (titulo == null || titulo.toString().trim().isEmpty()) return; 
+            
             // Obtener valores de la tabla y cargarlos en los JTextField
             txtTitulo.setText(tblTablaPeliculas.getValueAt(fila, 1).toString());
             txtDirector.setText(tblTablaPeliculas.getValueAt(fila, 2).toString());
@@ -332,12 +337,10 @@ public class Pantalla extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblTablaPeliculasMouseClicked
 
-              
-              
-    private void txtGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGeneroActionPerformed
-        
-    }//GEN-LAST:event_txtGeneroActionPerformed
-
+    private void txtGeneroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtGeneroMouseClicked
+        txtGenero.setText(seleccionGenero());
+    }//GEN-LAST:event_txtGeneroMouseClicked
+       
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -419,14 +422,14 @@ public class Pantalla extends javax.swing.JFrame {
         return eleccion;
     }
     
-    public String seleccionRangoAnios(){
+    public String seleccionRangoAnios(String texto){
         int inicio = 1895;
         int fin = 2025;
         String[] anios = new String [fin - inicio + 1];
         for (int i = 0; i < anios.length; i++) {
             anios[i] = String.valueOf(inicio+i);
         }
-        String eleccion =(String)JOptionPane.showInputDialog(null,"Selecione el anio","Rango de anios",
+        String eleccion =(String)JOptionPane.showInputDialog(null,"Selecione el anio de "+texto,"Rango de anios",
                 JOptionPane.QUESTION_MESSAGE,null,anios,anios[0]);
         if (eleccion == null) {
             JOptionPane.showMessageDialog(this, "Opcion cancelada por el Usuario");
