@@ -135,6 +135,7 @@ public class CarteleraDAO {
     }
     
     public Pelicula buscarPelicula(String pelicula){
+        if (pelicula == null || pelicula.isBlank()) return null;
         for (Pelicula p : listarPeliculas()){
             if (p.getTitulo().toUpperCase().equalsIgnoreCase(pelicula)) return p;
         }

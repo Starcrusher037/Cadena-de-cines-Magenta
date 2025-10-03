@@ -33,7 +33,12 @@ public class Controlador {
                 pant.mostrarTabla(cartelera.listarPeliculas());
                 break;
             case "Eliminar":
-                 boolean eliminado = cartelera.eliminarPelicula(Integer.parseInt(pant.consultarID()));
+                boolean eliminado = false;
+                try{
+                    eliminado = cartelera.eliminarPelicula(Integer.parseInt(pant.consultarID()));
+                }catch(NumberFormatException e){
+                    JOptionPane.showMessageDialog(pant, "Ha ocurrido un error al ingresar el id");
+                }
                 if (!eliminado) JOptionPane.showMessageDialog(pant, "Ocurrio un error al eliminar la pelicula, verifique que exista el ID");
                 else pant.mostrarTabla(cartelera.listarPeliculas());
                 break;
